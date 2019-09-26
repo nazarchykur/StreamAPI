@@ -30,11 +30,14 @@ public class SortedTest {
 
         // впорядкувати значення за алфавітом у зворотному порядку
         List<String> sortedReverse = collection.stream()
-                .sorted((o1, o2) -> -o1.compareTo(o2))
+//                .sorted((o1, o2) -> -o1.compareTo(o2))
+                .sorted((o1, o2) -> o2.compareTo(o1))
                 .collect(Collectors.toList());
         System.out.println("sortedReverse = " + sortedReverse); // print sortedReverse = [a4, a4, a3, a2, a1, a1]
         List<String> sortedReverse_1 = collection.stream()
-                .sorted(Comparator.reverseOrder())     //  Comparator.reverseOrder() = (o1, o2) -> -o1.compareTo(o2)
+                //  Comparator.reverseOrder() = (o1, o2) -> -o1.compareTo(o2)
+                // Comparator.reverseOrder() = (o1, o2) -> o2.compareTo(o1)
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         System.out.println("sortedReverse_1 = " + sortedReverse_1); // print the sane result
 
@@ -54,6 +57,19 @@ public class SortedTest {
                 .sorted(Comparator.comparing(People::getName)) // with ref func
                 .collect(Collectors.toList());
         System.out.println("byName = " + byName); // byName = [People{name='Doni', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}, People{name='OldMan', age=70, sex=MAN}]
+
+        // відсортувати за віком
+        List<People> sortedByAge = people.stream()
+                .sorted((p1, p2) -> p1.getAge() - p2.getAge())
+                //.sorted(Comparator.comparingInt(People::getAge))
+                .collect(Collectors.toList());
+        System.out.println("sortedByAge = " + sortedByAge); // print sortedByAge = [People{name='MJey', age=18, sex=WOMAN}, People{name='Leo', age=20, sex=MAN}, People{name='Doni', age=25, sex=MAN}, People{name='OldMan', age=70, sex=MAN}]
+
+        // відсортувати за віком у зворотньому порядку
+        List<People> sortedByAgeReverse = people.stream()
+                .sorted(Comparator.comparingInt(People::getAge).reversed())
+                .collect(Collectors.toList());
+        System.out.println("sortedByAgeReverse = " + sortedByAgeReverse); // print sortedByAgeReverse = [People{name='OldMan', age=70, sex=MAN}, People{name='Doni', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}]
 
         // Відсортувати спочатку за статтю, а потім за віком
         Collection<People> bySexAndAge = people.stream()

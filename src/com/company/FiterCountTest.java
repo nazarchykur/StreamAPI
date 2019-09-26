@@ -34,7 +34,7 @@ public class FiterCountTest {
         Collection<People> people = Arrays.asList(
                 new People("Leo", 20, Sex.MAN),
                 new People("Doni", 25, Sex.MAN),
-                new People("MJey", 18, Sex.WOMEN),
+                new People("MJey", 18, Sex.WOMAN),
                 new People("OldMan", 70, Sex.MAN)
         );
 
@@ -59,13 +59,13 @@ public class FiterCountTest {
         long peopleWhoCanWork = people
                 .stream()
                 .filter(p -> p.getAge() >= 18)
-                .filter(p -> (p.getSex() == Sex.WOMEN && p.getAge() < 55) || (p.getSex() == Sex.MAN && p.getAge() < 60)).count();
+                .filter(p -> (p.getSex() == Sex.WOMAN && p.getAge() < 55) || (p.getSex() == Sex.MAN && p.getAge() < 60)).count();
         System.out.println("peopleWhoCanWork = " + peopleWhoCanWork); // print peopleWhoCanWork = 3
     }
 
     private enum Sex {
         MAN,
-        WOMEN
+        WOMAN
     }
 
     private static class People {

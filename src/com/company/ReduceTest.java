@@ -7,8 +7,7 @@ import java.util.stream.IntStream;
 
 public class ReduceTest {
     // Метод reduce дозволяє виконувати агрегатні функції
-    // на всій колекцією (такі як сума, знаходження мінімального
-    // або максимального значення і т.п.)
+    // над всією колекцією (такі як сума, знаходження мінімального або максимального значення і т.п.)
     // Він повертає одне Optional значення
           // map - перетворює один об'єкт в інший (наприклад, клас одного тип в інший)
           // mapToInt - перетворення об'єктів в числовий стрім (стрім, що складається з значень int)
@@ -54,9 +53,11 @@ public class ReduceTest {
 
 
         // ******************** Повернути мінімум
-        Integer min1 = collection.stream().reduce((s1, s2) -> s1 < s2 ? s1 : s2).orElse(0); // через stream Api
-        Integer min2 = collection.stream()
-                .reduce(Integer::min).orElse(0);
+        Integer min1 = collection.stream().reduce((s1, s2) -> s1 < s2 ? s1 : s2).orElse(0);
+
+        // через stream Api
+        Integer min2 = collection.stream().reduce(Integer::min).orElse(0);
+
         Integer minOld = null; // по старому методу
         for(Integer i: collection) {
             minOld = minOld != null && minOld < i? minOld: i;
@@ -68,7 +69,9 @@ public class ReduceTest {
 
 
         // **************** Повернути останній елемент
-        Integer last = collection.stream().reduce((s1, s2) -> s2).orElse(0); // через stream Api
+        // через stream Api
+        Integer last = collection.stream().reduce((s1, s2) -> s2).orElse(0);
+
         Integer lastOld = null; // по старому методу
         for(Integer i: collection) {
             lastOld = i;
@@ -80,21 +83,24 @@ public class ReduceTest {
         // ************* Повернути суму чисел, які більше 3
         Integer sumMore3 = collection.stream()
                 .filter(s -> s > 3)
+//                .reduce(Integer::sum).orElse(0);
                 .reduce((s1, s2) -> s1 + s2).orElse(0);
 
-        Integer sumMore3Old = 0; // по старому методу
+        // по старому методу
+        Integer sumMore3old = 0;
         for(Integer i: collection) {
             if(i > 3) {
-                sumMore3Old += i;
+                sumMore3old += i;
             }
         }
         System.out.println("sumMore3 = " + sumMore3); // print sumMore3 = 4
-        System.out.println("sumMore3Old = " + sumMore3Old); // print sumMore3Old = 4
+        System.out.println("sumMore3old = " + sumMore3old); // print sumMore3old = 4
 
         // ******************* Повернути суму непарних чисел
         // через stream Api
         Integer sumOdd = collection.stream()
                 .filter(i -> i % 2 != 0)
+//                .reduce(Integer::sum).orElse(0);
                 .reduce((s1, s2) -> s1 + s2).orElse(0);
 
         // по старому методу
@@ -112,7 +118,7 @@ public class ReduceTest {
         // створимо колекцію людей
         Collection<People> people = Arrays.asList(
                 new People("Leo", 20, Sex.MAN),
-                new People("Doni", 25, Sex.MAN),
+                new People("Donnie", 25, Sex.MAN),
                 new People("MJey", 18, Sex.WOMAN),
                 new People("OldMan", 70, Sex.MAN),
                 new People("Nata", 26, Sex.WOMAN)
@@ -131,7 +137,8 @@ public class ReduceTest {
                 .filter(p -> p.getName().contains("a"))
                 .mapToInt(People::getAge)
                 //.reduce((p1, p2) -> p1 < p2 ? p1 : p2)
-                .reduce((p1, p2) -> Math.min(p1, p2))
+//                .reduce((p1, p2) -> Math.min(p1, p2))
+                .reduce(Math::min)
                 .orElse(0);
         System.out.println("younger = " + younger); // print younger = 26
 
@@ -144,7 +151,7 @@ public class ReduceTest {
                 .orElse(-1);
 
         // Displaying the product
-        System.out.println("The product is : " + product);
+        System.out.println("The product is : " + product); //The product is : 5040
 
     }
 

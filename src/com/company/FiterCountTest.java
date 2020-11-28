@@ -33,22 +33,24 @@ public class FiterCountTest {
         // створимо колекцію людей
         Collection<People> people = Arrays.asList(
                 new People("Leo", 20, Sex.MAN),
-                new People("Doni", 25, Sex.MAN),
+                new People("Donnie", 25, Sex.MAN),
                 new People("MJey", 18, Sex.WOMAN),
                 new People("OldMan", 70, Sex.MAN)
         );
 
-        // Вибрати чоловіків-военообязанних
+        // Вибрати чоловіків-воєнозобовязаних
         List<People> militaryService = people
                 .stream()
                 .filter(p -> p.getAge() >= 18 && p.getAge() < 27 && p.getSex() == Sex.MAN)
                 .collect(Collectors.toList());
-        System.out.println("militaryService = " + militaryService); // print militaryService = [People{name='Leo', age=20, sex=MAN}, People{name='Doni', age=25, sex=MAN}]
+        System.out.println("militaryService = " + militaryService);
+        // print militaryService = [People{name='Leo', age=20, sex=MAN}, People{name='Donnie', age=25, sex=MAN}]
 
         // Знайти середній вік серед чоловіків
         double manAverageAge = people
                 .stream()
                 .filter(p -> p.getSex() == Sex.MAN)
+//                .mapToInt(people1 -> people1.getAge())
                 .mapToInt(People::getAge)
                 .average()
                 .getAsDouble();
@@ -104,6 +106,5 @@ public class FiterCountTest {
     public static void main(String[] args) {
         testFilterCount();
     }
-
 
 }

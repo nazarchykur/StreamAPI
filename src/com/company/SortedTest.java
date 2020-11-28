@@ -34,19 +34,22 @@ public class SortedTest {
                 .sorted((o1, o2) -> o2.compareTo(o1))
                 .collect(Collectors.toList());
         System.out.println("sortedReverse = " + sortedReverse); // print sortedReverse = [a4, a4, a3, a2, a1, a1]
+
         List<String> sortedReverse_1 = collection.stream()
                 //  Comparator.reverseOrder() = (o1, o2) -> -o1.compareTo(o2)
                 // Comparator.reverseOrder() = (o1, o2) -> o2.compareTo(o1)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
-        System.out.println("sortedReverse_1 = " + sortedReverse_1); // print the sane result
+        System.out.println("sortedReverse_1 = " + sortedReverse_1);
+        // print the sane result
+        // sortedReverse_1 = [a4, a4, a3, a2, a1, a1]
 
 
         // ************ Робота з об'єктами
         // створимо колекцію людей
         Collection<People> people = Arrays.asList(
                 new People("Leo", 20, Sex.MAN),
-                new People("Doni", 25, Sex.MAN),
+                new People("Donnie", 25, Sex.MAN),
                 new People("MJey", 18, Sex.WOMAN),
                 new People("OldMan", 70, Sex.MAN)
         );
@@ -56,20 +59,23 @@ public class SortedTest {
                 //.sorted((o1, o2) -> o1.getName().compareTo(o2.getName())) // with lambda
                 .sorted(Comparator.comparing(People::getName)) // with ref func
                 .collect(Collectors.toList());
-        System.out.println("byName = " + byName); // byName = [People{name='Doni', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}, People{name='OldMan', age=70, sex=MAN}]
+        System.out.println("byName = " + byName);
+        // byName = [People{name='Donnie', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}, People{name='OldMan', age=70, sex=MAN}]
 
         // відсортувати за віком
         List<People> sortedByAge = people.stream()
-                .sorted((p1, p2) -> p1.getAge() - p2.getAge())
-                //.sorted(Comparator.comparingInt(People::getAge))
+//                .sorted((p1, p2) -> p1.getAge() - p2.getAge())
+                .sorted(Comparator.comparingInt(People::getAge))
                 .collect(Collectors.toList());
-        System.out.println("sortedByAge = " + sortedByAge); // print sortedByAge = [People{name='MJey', age=18, sex=WOMAN}, People{name='Leo', age=20, sex=MAN}, People{name='Doni', age=25, sex=MAN}, People{name='OldMan', age=70, sex=MAN}]
+        System.out.println("sortedByAge = " + sortedByAge);
+        // print sortedByAge = [People{name='MJey', age=18, sex=WOMAN}, People{name='Leo', age=20, sex=MAN}, People{name='Donnie', age=25, sex=MAN}, People{name='OldMan', age=70, sex=MAN}]
 
         // відсортувати за віком у зворотньому порядку
         List<People> sortedByAgeReverse = people.stream()
                 .sorted(Comparator.comparingInt(People::getAge).reversed())
                 .collect(Collectors.toList());
-        System.out.println("sortedByAgeReverse = " + sortedByAgeReverse); // print sortedByAgeReverse = [People{name='OldMan', age=70, sex=MAN}, People{name='Doni', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}]
+        System.out.println("sortedByAgeReverse = " + sortedByAgeReverse);
+        // print sortedByAgeReverse = [People{name='OldMan', age=70, sex=MAN}, People{name='Donnie', age=25, sex=MAN}, People{name='Leo', age=20, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}]
 
         // Відсортувати спочатку за статтю, а потім за віком
         Collection<People> bySexAndAge = people.stream()
@@ -81,7 +87,8 @@ public class SortedTest {
                 // використовуємо thenComparing щоб зберегти порядок і логіку сортування
                 .sorted(Comparator.comparing(People::getSex).thenComparing(People::getAge))
                 .collect(Collectors.toList());
-        System.out.println("bySexAndAge = " + bySexAndAge); // print bySexAndAge = [People{name='Leo', age=20, sex=MAN}, People{name='Doni', age=25, sex=MAN}, People{name='OldMan', age=70, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}]
+        System.out.println("bySexAndAge = " + bySexAndAge);
+        // print bySexAndAge = [People{name='Leo', age=20, sex=MAN}, People{name='Donnie', age=25, sex=MAN}, People{name='OldMan', age=70, sex=MAN}, People{name='MJey', age=18, sex=WOMAN}]
 
     }
 

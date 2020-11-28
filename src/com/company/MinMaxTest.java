@@ -16,12 +16,14 @@ public class MinMaxTest {
 
         // знайти максимальне значення
         String max = collection.stream()
-                .max(String::compareTo).get();
+                .max(String::compareTo)
+                .get();
         System.out.println("max = " + max); // print max = a3
 
         // знайти мінімальне значення
         String min = collection.stream()
-                .min(String::compareTo).get();
+                .min(String::compareTo)
+                .get();
         System.out.println("min = " + min); // print min = a1
 
 
@@ -60,10 +62,8 @@ public class MinMaxTest {
 
         // знайти найстаршу людину
         People older = people.stream()
-                // with lambda
-//                .max((p1, p2) -> p1.getAge().compareTo(p2.getAge()))
-                // with ref method
-                .max(Comparator.comparing(People::getAge))
+//                .max((p1, p2) -> p1.getAge().compareTo(p2.getAge()))  // with lambda
+                .max(Comparator.comparing(People::getAge)) // with ref method
                 .get();
         System.out.println("older = " + older); // print older = People{name='Bob', age=69, sex=MAN}
 

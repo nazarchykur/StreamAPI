@@ -24,7 +24,7 @@ public class CollectAndToArrayTest {
         // ******** Робота з числами
         System.out.println(" ******** Робота з числами");
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-
+// Строитель обычно представляет собой статический класс- член (раздел 4.10) класса, который он строит.
         Integer[] integers = numbers.stream().toArray(Integer[]::new);
 
         Integer[] integers_1 = numbers.toArray(new Integer[0]);
@@ -66,7 +66,8 @@ public class CollectAndToArrayTest {
         // Додати до кожного числа 3 і отримати статистику
         IntSummaryStatistics statistics = numbers.stream()
                 .collect(Collectors.summarizingInt(p -> p + 3));
-        System.out.println("statistics = " + statistics); // print statistics = IntSummaryStatistics{count=4, sum=22, min=4, average=5.500000, max=7}
+        System.out.println("statistics = " + statistics);
+        // print statistics = IntSummaryStatistics{count=4, sum=22, min=4, average=5.500000, max=7}
 
 
         // Отримати суму парних чисел через IntSummaryStatistics
@@ -213,27 +214,29 @@ public class CollectAndToArrayTest {
         Employee[] employeesArray = employeeList.stream()
                 .filter(el -> el.getSalary() > 8000)
                 .toArray(Employee[]::new);
-        System.out.println("employeesArray = " + Arrays.toString(employeesArray)); // print employeesArray = [Employee{name='Tom Jones', age=45, salary=15000.0, leaves=190}, Employee{name='Nancy Smith', age=22, salary=10000.0, leaves=5}, Employee{name='Deborah Sprightly', age=29, salary=9000.0, leaves=45}]
+        System.out.println("employeesArray = " + Arrays.toString(employeesArray));
+        // print employeesArray = [Employee{name='Tom Jones', age=45, salary=15000.0, leaves=190}, Employee{name='Nancy Smith', age=22, salary=10000.0, leaves=5}, Employee{name='Deborah Sprightly', age=29, salary=9000.0, leaves=45}]
 
         System.out.println();
 
         //Collecting stream elements in a LinkedList
-        LinkedList employeeLinkedList = employeeList.stream()
+        LinkedList<Employee> employeeLinkedList = employeeList.stream()
                 .collect(Collectors.toCollection(LinkedList::new));
 
-        LinkedList employeeLinkedList_1 = new LinkedList<>(employeeList);
+        LinkedList<Employee> employeeLinkedList_1 = new LinkedList<>(employeeList);
         System.out.println("No.of employees in employeeLinkedList: " + employeeLinkedList.size());
         System.out.println("Employees in employeeLinkedList: " + employeeLinkedList);
 
         System.out.println("No.of employees in employeeLinkedList: " + employeeLinkedList_1.size());
         System.out.println("Employees in employeeLinkedList: " + employeeLinkedList_1);
 
-        //Collecting stream elements in a HashSet
-        HashSet employeeHashSet = employeeList.stream()
-                .collect(Collectors.toCollection(HashSet::new));
 
-        HashSet employeeHashSet_1 = employeeList.stream()
+        //Collecting stream elements in a HashSet
+
+        HashSet<Employee> employeeHashSet = employeeList.stream()
                 .collect(Collectors.toCollection(HashSet::new));
+        // employeeHashSet == employeeHashSet_1
+        HashSet<Employee> employeeHashSet_1 = new HashSet<>(employeeList);
 
         System.out.println();
         System.out.println("No.of employees in employeeHashSet: " + employeeHashSet.size());
@@ -241,12 +244,20 @@ public class CollectAndToArrayTest {
 
         System.out.println("No.of employees in employeeHashSet: " + employeeHashSet_1.size());
         System.out.println("Employees in employeeHashSet: " + employeeHashSet_1);
+        //No.of employees in employeeHashSet: 5
+        //Employees in employeeHashSet: [Employee{name='Ethan Hardy', age=65, salary=8000.0, leaves=1008}, Employee{name='Deborah Sprightly', age=29, salary=9000.0, leaves=45}, Employee{name='Tom Jones', age=45, salary=15000.0, leaves=190}, Employee{name='Tom Jones', age=45, salary=7000.0, leaves=220}, Employee{name='Nancy Smith', age=22, salary=10000.0, leaves=5}]
+        //No.of employees in employeeHashSet: 5
+        //Employees in employeeHashSet: [Employee{name='Ethan Hardy', age=65, salary=8000.0, leaves=1008}, Employee{name='Deborah Sprightly', age=29, salary=9000.0, leaves=45}, Employee{name='Tom Jones', age=45, salary=15000.0, leaves=190}, Employee{name='Tom Jones', age=45, salary=7000.0, leaves=220}, Employee{name='Nancy Smith', age=22, salary=10000.0, leaves=5}]
+
 
         System.out.println();
         Map<Boolean, List<Employee>> employeeMap = employeeList.stream()
                 .collect(Collectors.partitioningBy((Employee emp) -> emp.getAge() > 30));
         System.out.println("Employees partitioned based on Predicate - 'age > 30'");
         employeeMap.forEach((Boolean key, List<Employee> empList) -> System.out.println(key + "->" + empList));
+        //false->[Employee{name='Nancy Smith', age=22, salary=10000.0, leaves=5}, Employee{name='Deborah Sprightly', age=29, salary=9000.0, leaves=45}]
+        //true->[Employee{name='Tom Jones', age=45, salary=15000.0, leaves=190}, Employee{name='Tom Jones', age=45, salary=7000.0, leaves=220}, Employee{name='Ethan Hardy', age=65, salary=8000.0, leaves=1008}]
+
 
         System.out.println();
         Map<Boolean, Long> employeeMapCount = employeeList.stream()
@@ -256,6 +267,8 @@ public class CollectAndToArrayTest {
                 ));
         System.out.println("Employee count in the 2 partitioned age groups");
         employeeMapCount.forEach((Boolean key, Long count) -> System.out.println(key + " count -> " + count));
+        // false count -> 2
+        //true count -> 3
     }
 
     public static class Person {
